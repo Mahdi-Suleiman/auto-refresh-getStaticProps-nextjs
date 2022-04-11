@@ -1,39 +1,26 @@
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react'
 
-function AutoRefresh({ posts }) {
-    const router = useRouter();
-    const refreshData = () => {
-        router.replace(router.asPath);
-        console.log("refresh test");
-    }
-    useEffect(() => {
-        setInterval(refreshData, 600000)//Runs the "func" function every second
-    }, [])
-
+function AutoRefresh({ post }) {
     return (
         <>
             <ul>
-                {posts.map((post) => (
-                    <>
-                        <li>{post.id}</li>
-                        <li>{post.title}</li>
-                        <li>{post.body}</li>
-                        <br />
-                    </>
-                ))}
+                <li>{post.id}</li>
+                <li>{post.title}</li>
+                <li>{post.body}</li>
             </ul>
         </>
     )
 }
 
 export async function getStaticProps(context) {
-    const res = await fetch('https://jsonplaceholder.typicode.com/posts')
-    const posts = await res.json()
+    const res = await fetch('https://jsonplaceholder.typicode.com/posts/1')
+    const post = await res.json()
     return {
         props: {
-            posts,
-        }, // will be passed to the page component as props
+            post,
+        },
+        revalidate: 600000, // will rebuild every 10 minutes
     }
 }
 
