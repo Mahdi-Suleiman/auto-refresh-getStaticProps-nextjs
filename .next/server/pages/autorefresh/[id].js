@@ -67,7 +67,8 @@ async function getStaticProps({ params  }) {
         props: {
             post
         },
-        revalidate: 600000
+        // revalidate: 600000, // will rebuild every 10 minutes
+        revalidate: 1
     };
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Post);

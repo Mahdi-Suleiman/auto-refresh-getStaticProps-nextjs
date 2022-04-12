@@ -39,7 +39,8 @@ export async function getStaticProps({ params }) {
         props: {
             post,
         },
-        revalidate: 600000, // will rebuild every 10 minutes
+        // revalidate: 600000, // will rebuild every 10 minutes
+        revalidate: 1, // will rebuild every 1 second
     }
 }
 
