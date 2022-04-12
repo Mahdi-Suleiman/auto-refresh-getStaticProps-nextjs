@@ -23,23 +23,24 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function Post({ post  }) {
+function Post({ posts  }) {
     const router = (0,next_router__WEBPACK_IMPORTED_MODULE_2__.useRouter)();
     const { pid  } = router.query;
     return /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-        children: /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("ul", {
-            children: [
-                /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("li", {
-                    children: post.id
-                }),
-                /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("li", {
-                    children: post.title
-                }),
-                /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("li", {
-                    children: post.body
-                })
-            ]
-        })
+        children: posts.map((post)=>/*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("ul", {
+                children: [
+                    /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("li", {
+                        children: post.id
+                    }),
+                    /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("li", {
+                        children: post.title
+                    }),
+                    /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("li", {
+                        children: post.body
+                    })
+                ]
+            }, post.id)
+        )
     });
 }
 async function getStaticPaths() {
@@ -61,14 +62,16 @@ async function getStaticPaths() {
     };
 }
 async function getStaticProps({ params  }) {
-    const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${params.id}`);
-    const post = await res.json();
+    // https://jsonplaceholder.typicode.com/posts?_start=0&_limit=10
+    // const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${params.id}`)
+    const res = await fetch(`https://jsonplaceholder.typicode.com/posts?_start=${params.id - 1}0&_limit=10`) //added pagination
+    ;
+    const posts = await res.json();
     return {
         props: {
-            post
+            posts
         },
-        // revalidate: 600000, // will rebuild every 10 minutes
-        revalidate: 1
+        revalidate: 600000
     };
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Post);

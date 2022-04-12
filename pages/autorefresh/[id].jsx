@@ -1,17 +1,20 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 
-function Post({ post }) {
+function Post({ posts }) {
     const router = useRouter()
     const { pid } = router.query
 
     return (
         <>
-            <ul>
-                <li>{post.id}</li>
-                <li>{post.title}</li>
-                <li>{post.body}</li>
-            </ul>
+            {posts.map(post =>
+                <ul key={post.id}>
+                    <li>{post.id}</li>
+                    <li>{post.title}</li>
+                    <li>{post.body}</li>
+                </ul>
+            )}
+
         </>
     )
 }
@@ -33,14 +36,16 @@ export async function getStaticPaths() {
 
 
 export async function getStaticProps({ params }) {
-    const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${params.id}`)
-    const post = await res.json()
+    // https://jsonplaceholder.typicode.com/posts?_start=0&_limit=10
+    // const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${params.id}`)
+    const res = await fetch(`https://jsonplaceholder.typicode.com/posts?_start=${params.id - 1}0&_limit=10`) //added pagination
+    const posts = await res.json()
     return {
         props: {
-            post,
+            posts,
         },
-        // revalidate: 600000, // will rebuild every 10 minutes
-        revalidate: 1, // will rebuild every 1 second
+        revalidate: 600000, // will rebuild every 10 minutes
+        // revalidate: 1, // will rebuild every 1 second
     }
 }
 
