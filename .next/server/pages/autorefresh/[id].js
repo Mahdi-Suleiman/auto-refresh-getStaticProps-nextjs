@@ -62,6 +62,7 @@ async function getStaticPaths() {
     };
 }
 async function getStaticProps({ params  }) {
+    console.log("rebuilding... " + params.id);
     // https://jsonplaceholder.typicode.com/posts?_start=0&_limit=10
     // const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${params.id}`)
     const res = await fetch(`https://jsonplaceholder.typicode.com/posts?_start=${params.id - 1}0&_limit=10`) //added pagination
@@ -71,7 +72,8 @@ async function getStaticProps({ params  }) {
         props: {
             posts
         },
-        revalidate: 600000
+        // revalidate: 60000, // will rebuild every 10 minutes
+        revalidate: 30
     };
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Post);

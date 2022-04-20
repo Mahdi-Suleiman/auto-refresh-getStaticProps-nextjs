@@ -1,10 +1,11 @@
 {
+  "/_app": "pages/_app.js",
+  "/api/revalidate": "pages/api/revalidate.js",
   "/api/hello": "pages/api/hello.js",
   "/": "pages/index.html",
-  "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
-  "/autorefresh": "pages/autorefresh.js",
   "/autorefresh/[id]": "pages/autorefresh/[id].js",
+  "/autorefresh": "pages/autorefresh.js",
   "/_document": "pages/_document.js",
   "/404": "pages/404.html"
 }

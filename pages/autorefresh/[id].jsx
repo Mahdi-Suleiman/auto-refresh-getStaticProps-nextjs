@@ -14,7 +14,6 @@ function Post({ posts }) {
                     <li>{post.body}</li>
                 </ul>
             )}
-
         </>
     )
 }
@@ -36,6 +35,7 @@ export async function getStaticPaths() {
 
 
 export async function getStaticProps({ params }) {
+    console.log('rebuilding... ' + params.id)
     // https://jsonplaceholder.typicode.com/posts?_start=0&_limit=10
     // const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${params.id}`)
     const res = await fetch(`https://jsonplaceholder.typicode.com/posts?_start=${params.id - 1}0&_limit=10`) //added pagination
@@ -44,8 +44,8 @@ export async function getStaticProps({ params }) {
         props: {
             posts,
         },
-        revalidate: 600000, // will rebuild every 10 minutes
-        // revalidate: 1, // will rebuild every 1 second
+        // revalidate: 60000, // will rebuild every 10 minutes
+        revalidate: 30, // will rebuild every 30 seconds
     }
 }
 
